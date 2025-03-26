@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "RequestOrder";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    HashSet<BaggageWeb.Models.ModelView.OrderView> view = new HashSet<BaggageWeb.Models.ModelView.OrderView>();
+    if (ViewBag.orderlist != null)
+    {
+        view = (HashSet<BaggageWeb.Models.ModelView.OrderView>)ViewBag.orderlist;
+    }
+}
+
+<h2>RequestOrder</h2>
+<div class="container">
+    <h2>OrderList</h2>
+    <table class="table table-hover">
+        <tr>
+            <td>Id</td>
+            <td>Product Name</td>
+            <td>Price</td>
+            <td>Order Confirm</td>
+        </tr>
+        @foreach (BaggageWeb.Models.ModelView.OrderView item in view)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.ProductId</td>
+                @{
+                    if (item.price == 0)
+                    {
+                        <td>No Price</td>
+                        <td>
+                            <form action="@Url.Action("AddPriceToOrder","Admin",new {orderId=item.Id})" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button name="btnAddPrice" type="submit">
+                                    Add Price
+                                </button>
+
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@item.price</td>
+                        <td>
+                            <form action="@Url.Action("AddPriceToOrder","Admin",new {orderId=item.Id})" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button name="btnChangePrice" type="submit">
+                                    Change Price
+                                </button>
+                            </form>
+                        </td>
+                    }
+                }
+
+            </tr>
+        }
+    </table>
+</div>
+

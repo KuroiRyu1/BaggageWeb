@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "NewOrder";
+    Layout = "~/Views/Shared/_LayoutCLient.cshtml";
+    BaggageWeb.Models.ModelView.ProductView product = new BaggageWeb.Models.ModelView.ProductView();
+    if (ViewBag.product != null)
+    {
+        product = (BaggageWeb.Models.ModelView.ProductView)ViewBag.product;
+    }
+    BaggageWeb.Models.ModelView.MemberView member = (BaggageWeb.Models.ModelView.MemberView)Session["acc"];
+    HttpCookie cookie = Request.Cookies["User"];
+}
+
+
+<div class="container">
+    <h2>New Order</h2>
+    <form action="@Url.Action("OrderCreate", "Member", new { memberId = Session["acc"])" method="post">
+        <div class="row">
+            <div class="col-2">Product Name :</div>
+            <div class="col-5">
+                <input type="text" value="@product.Name" name="Name" id="Name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">Product Price :</div>
+            <div class="col-5">
+                <input type="text" value="0" name="Name" id="Name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-4">
+                <button type="submit" name="btnSave" value="Save">Send Order</button>
+            </div>
+        </div>
+        <input type="hidden" name="ProductId" value="@product.Id" />
+        <input type="hidden" name="MemberId" value="@member.Id" />
+    </form>
+</div>
+
+

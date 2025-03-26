@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    HashSet<BaggageWeb.Models.ModelView.ProductView> view = (HashSet<BaggageWeb.Models.ModelView.ProductView>)ViewBag.product;
+}
+
+<div class="container">
+    <h2>ProductList</h2>
+    <table class="table table-hover">
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Status</td>
+        </tr>
+        @foreach (BaggageWeb.Models.ModelView.ProductView item in view)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.Quantity</td>
+                <td>@item.Active</td>
+            </tr>
+        }
+    </table>
+</div>
+

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "MemberInfo";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    HttpCookie cookie = Request.Cookies["User"];
+}
+
+
+<div class="container">
+    <h2>MemberInfo</h2>
+    <div class="col-3 mb-4">
+        <div class="card" style="width: 80rem; height:30rem;">
+            <img class="card-img-top" height="200" alt="1">
+            <div class="card-body">
+                <h5 class="card-title">@cookie["username"]</h5>
+                <a href="@Url.Action("LogOut", "Login")" class="btn btn-primary">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+

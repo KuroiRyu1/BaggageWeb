@@ -1,0 +1,17 @@
+﻿body {
+}
+.body_bg{
+    background-color :#44cee3;
+}
+.txt_red{
+    color :red;
+}
+.login_title{
+    text-align :center
+}
+.align_center {
+    position:absolute;
+    left:0;
+    right:0;
+    margin: auto;
+}

@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "AdminInfo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    BaggageWeb.Models.ModelView.MemberView item = ( BaggageWeb.Models.ModelView.MemberView ) Session["acc"];
+}
+
+
+<div class="container">
+    <h2>AdminInfo</h2>
+    <div class="col-3 mb-4">
+        <div class="card" style="width: 80rem; height:30rem;">
+            <img class="card-img-top" height="200" alt="1">
+            <div class="card-body">
+                <h5 class="card-title">@item.UserName</h5>
+                <a href="@Url.Action("index", "Login")" class="btn btn-primary">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>

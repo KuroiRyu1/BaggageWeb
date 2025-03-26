@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "ProductCreate";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ProductCreate</h2>
+<form action="@Url.Action("ProductCreate2","Admin")" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-2">Name :</div>
+        <div class="col-5">
+            <input type="text" value="" name="Name" id="Name" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">Price</div>
+        <div class="col-5">
+            <input type="text" name="Price" value="0" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">Description</div>
+        <div class="col-10">
+            <input type="text" name="Description" value="" id="Description" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">Active</div>
+        <div class="col-10">
+            <input type="checkbox" name="Active" id="Active" value="1" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">Image</div>
+        <div class="col-4">
+            <input type="file" value="" id="Img" name="Img" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <button type="submit" name="btnSave" value="Save">Save</button>
+        </div>
+    </div>
+</form>

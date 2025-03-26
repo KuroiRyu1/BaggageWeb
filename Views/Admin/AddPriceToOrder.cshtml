@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "AddPriceToOrder";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    BaggageWeb.Models.ModelView.OrderView view = new BaggageWeb.Models.ModelView.OrderView();
+    BaggageWeb.Models.ModelView.ProductView product = new BaggageWeb.Models.ModelView.ProductView();
+    if (ViewBag.product != null)
+    {
+        product = (BaggageWeb.Models.ModelView.ProductView)ViewBag.product;
+    }
+    if (ViewBag.order != null)
+    {
+        view = (BaggageWeb.Models.ModelView.OrderView)ViewBag.order;
+    }
+}
+
+<div class="container">
+    <h2>AddPriceToOrder</h2>
+    <form action="@Url.Action("AddPrice", "Admin", new {orderId=view.Id,productId=product.Id })" method="post">
+        <div class="row">
+            <div class="col-2">Product Name :</div>
+            <div class="col-5">
+                <p>
+                    @product.Name
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">Product Price :</div>
+            <div class="col-5">
+                <input type="text" value="@view.price" name="Price" id="Price" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <button type="submit" class="btn btn-success" name="btnConfirm">Confirm</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+

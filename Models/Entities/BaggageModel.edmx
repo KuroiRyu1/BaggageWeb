@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_baggageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_authentication">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_title" Type="nvarchar" MaxLength="50" />
+          <Property Name="_active" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_authorization">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_title" Type="nvarchar" MaxLength="50" />
+          <Property Name="_url" Type="varchar" MaxLength="200" />
+          <Property Name="_id_authen" Type="int" />
+          <Property Name="_active" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_member">
+          <Key>
+            <PropertyRef Name="_id" />
+          </Key>
+          <Property Name="_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_acc_username" Type="nvarchar" MaxLength="50" />
+          <Property Name="_acc_userpass" Type="nvarchar" MaxLength="10" />
+          <Property Name="_id_auth" Type="int" />
+          <Property Name="_active" Type="int" />
+          <Property Name="_email" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_orders">
+          <Key>
+            <PropertyRef Name="o_id" />
+          </Key>
+          <Property Name="o_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_id" Type="int" />
+          <Property Name="m_id" Type="int" />
+          <Property Name="o_date" Type="datetime" />
+          <Property Name="o_status" Type="int" />
+          <Property Name="o_order_confirm" Type="int" />
+          <Property Name="o_price" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_products">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_name" Type="nvarchar" MaxLength="100" />
+          <Property Name="pro_des" Type="nvarchar" MaxLength="255" />
+          <Property Name="pro_price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="pro_active" Type="int" />
+          <Property Name="pro_quantity" Type="int" />
+          <Property Name="pro_image" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="fk_default_auth_id">
+          <End Role="tbl_authentication" Type="Self.tbl_authentication" Multiplicity="0..1" />
+          <End Role="tbl_authorization" Type="Self.tbl_authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_authentication">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="tbl_authorization">
+              <PropertyRef Name="_id_authen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_m_id">
+          <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="0..1" />
+          <End Role="tbl_orders" Type="Self.tbl_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_member">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="tbl_orders">
+              <PropertyRef Name="m_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_m_status">
+          <End Role="tbl_authorization" Type="Self.tbl_authorization" Multiplicity="0..1" />
+          <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_authorization">
+              <PropertyRef Name="_id" />
+            </Principal>
+            <Dependent Role="tbl_member">
+              <PropertyRef Name="_id_auth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_pro_id">
+          <End Role="tbl_products" Type="Self.tbl_products" Multiplicity="0..1" />
+          <End Role="tbl_orders" Type="Self.tbl_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_products">
+              <PropertyRef Name="pro_id" />
+            </Principal>
+            <Dependent Role="tbl_orders">
+              <PropertyRef Name="pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="db_baggageModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_authentication" EntityType="Self.tbl_authentication" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_authorization" EntityType="Self.tbl_authorization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_member" EntityType="Self.tbl_member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_orders" EntityType="Self.tbl_orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_products" EntityType="Self.tbl_products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_default_auth_id" Association="Self.fk_default_auth_id">
+            <End Role="tbl_authentication" EntitySet="tbl_authentication" />
+            <End Role="tbl_authorization" EntitySet="tbl_authorization" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_m_id" Association="Self.fk_default_m_id">
+            <End Role="tbl_member" EntitySet="tbl_member" />
+            <End Role="tbl_orders" EntitySet="tbl_orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_m_status" Association="Self.fk_default_m_status">
+            <End Role="tbl_authorization" EntitySet="tbl_authorization" />
+            <End Role="tbl_member" EntitySet="tbl_member" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_pro_id" Association="Self.fk_default_pro_id">
+            <End Role="tbl_products" EntitySet="tbl_products" />
+            <End Role="tbl_orders" EntitySet="tbl_orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_baggageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_authentication">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C_active" Type="Int32" />
+          <NavigationProperty Name="tbl_authorization" Relationship="Self.fk_default_auth_id" FromRole="tbl_authentication" ToRole="tbl_authorization" />
+        </EntityType>
+        <EntityType Name="tbl_authorization">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C_url" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="C_id_authen" Type="Int32" />
+          <Property Name="C_active" Type="Int32" />
+          <NavigationProperty Name="tbl_authentication" Relationship="Self.fk_default_auth_id" FromRole="tbl_authorization" ToRole="tbl_authentication" />
+          <NavigationProperty Name="tbl_member" Relationship="Self.fk_default_m_status" FromRole="tbl_authorization" ToRole="tbl_member" />
+        </EntityType>
+        <EntityType Name="tbl_member">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Name="C_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_acc_username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C_acc_userpass" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="C_id_auth" Type="Int32" />
+          <Property Name="C_active" Type="Int32" />
+          <NavigationProperty Name="tbl_authorization" Relationship="Self.fk_default_m_status" FromRole="tbl_member" ToRole="tbl_authorization" />
+          <NavigationProperty Name="tbl_orders" Relationship="Self.fk_default_m_id" FromRole="tbl_member" ToRole="tbl_orders" />
+          <Property Name="C_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_orders">
+          <Key>
+            <PropertyRef Name="o_id" />
+          </Key>
+          <Property Name="o_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_id" Type="Int32" />
+          <Property Name="m_id" Type="Int32" />
+          <Property Name="o_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbl_member" Relationship="Self.fk_default_m_id" FromRole="tbl_orders" ToRole="tbl_member" />
+          <NavigationProperty Name="tbl_products" Relationship="Self.fk_default_pro_id" FromRole="tbl_orders" ToRole="tbl_products" />
+          <Property Name="o_status" Type="Int32" />
+          <Property Name="o_order_confirm" Type="Int32" />
+          <Property Name="o_price" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_products">
+          <Key>
+            <PropertyRef Name="pro_id" />
+          </Key>
+          <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="pro_des" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pro_price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="pro_active" Type="Int32" />
+          <Property Name="pro_quantity" Type="Int32" />
+          <NavigationProperty Name="tbl_orders" Relationship="Self.fk_default_pro_id" FromRole="tbl_products" ToRole="tbl_orders" />
+          <Property Name="pro_image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="fk_default_auth_id">
+          <End Role="tbl_authentication" Type="Self.tbl_authentication" Multiplicity="0..1" />
+          <End Role="tbl_authorization" Type="Self.tbl_authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_authentication">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="tbl_authorization">
+              <PropertyRef Name="C_id_authen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_m_status">
+          <End Role="tbl_authorization" Type="Self.tbl_authorization" Multiplicity="0..1" />
+          <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_authorization">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="tbl_member">
+              <PropertyRef Name="C_id_auth" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_m_id">
+          <End Role="tbl_member" Type="Self.tbl_member" Multiplicity="0..1" />
+          <End Role="tbl_orders" Type="Self.tbl_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_member">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="tbl_orders">
+              <PropertyRef Name="m_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_default_pro_id">
+          <End Role="tbl_products" Type="Self.tbl_products" Multiplicity="0..1" />
+          <End Role="tbl_orders" Type="Self.tbl_orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_products">
+              <PropertyRef Name="pro_id" />
+            </Principal>
+            <Dependent Role="tbl_orders">
+              <PropertyRef Name="pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="tbl_authentication" EntityType="Self.tbl_authentication" />
+          <EntitySet Name="tbl_authorization" EntityType="Self.tbl_authorization" />
+          <EntitySet Name="tbl_member" EntityType="Self.tbl_member" />
+          <EntitySet Name="tbl_orders" EntityType="Self.tbl_orders" />
+          <EntitySet Name="tbl_products" EntityType="Self.tbl_products" />
+          <AssociationSet Name="fk_default_auth_id" Association="Self.fk_default_auth_id">
+            <End Role="tbl_authentication" EntitySet="tbl_authentication" />
+            <End Role="tbl_authorization" EntitySet="tbl_authorization" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_m_status" Association="Self.fk_default_m_status">
+            <End Role="tbl_authorization" EntitySet="tbl_authorization" />
+            <End Role="tbl_member" EntitySet="tbl_member" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_m_id" Association="Self.fk_default_m_id">
+            <End Role="tbl_member" EntitySet="tbl_member" />
+            <End Role="tbl_orders" EntitySet="tbl_orders" />
+          </AssociationSet>
+          <AssociationSet Name="fk_default_pro_id" Association="Self.fk_default_pro_id">
+            <End Role="tbl_products" EntitySet="tbl_products" />
+            <End Role="tbl_orders" EntitySet="tbl_orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_baggageModelStoreContainer" CdmEntityContainer="DbEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="db_baggageModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_authentication">
+            <EntityTypeMapping TypeName="db_baggageModel.tbl_authentication">
+              <MappingFragment StoreEntitySet="tbl_authentication">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_title" ColumnName="_title" />
+                <ScalarProperty Name="C_active" ColumnName="_active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_authorization">
+            <EntityTypeMapping TypeName="db_baggageModel.tbl_authorization">
+              <MappingFragment StoreEntitySet="tbl_authorization">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_title" ColumnName="_title" />
+                <ScalarProperty Name="C_url" ColumnName="_url" />
+                <ScalarProperty Name="C_id_authen" ColumnName="_id_authen" />
+                <ScalarProperty Name="C_active" ColumnName="_active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_member">
+            <EntityTypeMapping TypeName="db_baggageModel.tbl_member">
+              <MappingFragment StoreEntitySet="tbl_member">
+                <ScalarProperty Name="C_email" ColumnName="_email" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="C_acc_username" ColumnName="_acc_username" />
+                <ScalarProperty Name="C_acc_userpass" ColumnName="_acc_userpass" />
+                <ScalarProperty Name="C_id_auth" ColumnName="_id_auth" />
+                <ScalarProperty Name="C_active" ColumnName="_active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_orders">
+            <EntityTypeMapping TypeName="db_baggageModel.tbl_orders">
+              <MappingFragment StoreEntitySet="tbl_orders">
+                <ScalarProperty Name="o_price" ColumnName="o_price" />
+                <ScalarProperty Name="o_order_confirm" ColumnName="o_order_confirm" />
+                <ScalarProperty Name="o_status" ColumnName="o_status" />
+                <ScalarProperty Name="o_id" ColumnName="o_id" />
+                <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+                <ScalarProperty Name="m_id" ColumnName="m_id" />
+                <ScalarProperty Name="o_date" ColumnName="o_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_products">
+            <EntityTypeMapping TypeName="db_baggageModel.tbl_products">
+              <MappingFragment StoreEntitySet="tbl_products">
+                <ScalarProperty Name="pro_image" ColumnName="pro_image" />
+                <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+                <ScalarProperty Name="pro_name" ColumnName="pro_name" />
+                <ScalarProperty Name="pro_des" ColumnName="pro_des" />
+                <ScalarProperty Name="pro_price" ColumnName="pro_price" />
+                <ScalarProperty Name="pro_active" ColumnName="pro_active" />
+                <ScalarProperty Name="pro_quantity" ColumnName="pro_quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "OrderList";
+    Layout = "~/Views/Shared/_LayoutCLient.cshtml";
+    HashSet<BaggageWeb.Models.ModelView.OrderView> view = new HashSet<BaggageWeb.Models.ModelView.OrderView>();
+    BaggageWeb.Models.ModelView.MemberView member = new BaggageWeb.Models.ModelView.MemberView();
+    if (ViewBag.orderlist != null)
+    {
+        view = (HashSet<BaggageWeb.Models.ModelView.OrderView>)ViewBag.orderlist;
+    }
+    if (ViewBag.data != null)
+    {
+        member = (BaggageWeb.Models.ModelView.MemberView)ViewBag.data;
+    }
+}
+}
+
+<div class="container">
+    <h2>OrderList</h2>
+    <table class="table table-hover">
+        <tr>
+            <td>Id</td>
+            <td>Product Name</td>
+            <td>Price</td>
+            <td>Order Confirm</td>
+            <td>Delete</td>
+        </tr>
+        @foreach (BaggageWeb.Models.ModelView.OrderView item in view)
+        {
+            BaggageWeb.Models.ModelView.ProductView product = BaggageWeb.Models.Repositories.ProductRepository.Instance.findById(item.ProductId);
+            <tr>
+                <td>@item.Id</td>
+                @if (product != null)
+                {
+                    <td>
+                        @product.Name
+                    </td>
+                }
+                else
+                {
+                    <td>No Name</td>
+                }
+                @{
+                    if (item.price != 0&&item.OrderConfirm==0)
+                    {
+                        <td>@item.price</td>
+                        <td>
+                            <form action="@Url.Action("OrderConfirm","Member")" method="post">
+                                <input type="hidden" name="Id" value="@item.Id" />
+                                <button name="btnOrderConfirm" type="submit">
+                                    Order Confirm
+                                </button>
+                            </form>
+                        </td>
+                    }
+                    else if (item.OrderConfirm == 1)
+                    {
+                        <td>@item.price</td>
+                        <td>
+
+                            <button name="btnOrderConfirm" type="submit">
+                                Already Confirm
+                            </button>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>No Price</td>
+                        <td><button>Waiting</button></td>
+                    }
+                }
+                <td>
+                    <form action="@Url.Action("OrderCancel", "Member")" method="post">
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="hidden" name="memberId" value="@item.MemberId" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

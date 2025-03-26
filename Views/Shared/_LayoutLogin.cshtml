@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Client/style.css")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+</body>
+</html>
