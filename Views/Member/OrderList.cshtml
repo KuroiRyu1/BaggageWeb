@@ -3,15 +3,11 @@
     ViewBag.Title = "OrderList";
     Layout = "~/Views/Shared/_LayoutCLient.cshtml";
     HashSet<BaggageWeb.Models.ModelView.OrderView> view = new HashSet<BaggageWeb.Models.ModelView.OrderView>();
-    BaggageWeb.Models.ModelView.MemberView member = new BaggageWeb.Models.ModelView.MemberView();
     if (ViewBag.orderlist != null)
     {
         view = (HashSet<BaggageWeb.Models.ModelView.OrderView>)ViewBag.orderlist;
     }
-    if (ViewBag.data != null)
-    {
-        member = (BaggageWeb.Models.ModelView.MemberView)ViewBag.data;
-    }
+        BaggageWeb.Models.ModelView.MemberView member = (BaggageWeb.Models.ModelView.MemberView)Session["acc"];
 }
 }
 
@@ -23,7 +19,8 @@
             <td>Product Name</td>
             <td>Price</td>
             <td>Order Confirm</td>
-            <td>Delete</td>
+            <td>Order Date</td>
+            <td>Action</td>
         </tr>
         @foreach (BaggageWeb.Models.ModelView.OrderView item in view)
         {
@@ -41,16 +38,36 @@
                     <td>No Name</td>
                 }
                 @{
-                    if (item.price != 0&&item.OrderConfirm==0)
+                    if (item.price != 0 && item.OrderConfirm == 0)
                     {
                         <td>@item.price</td>
                         <td>
-                            <form action="@Url.Action("OrderConfirm","Member")" method="post">
-                                <input type="hidden" name="Id" value="@item.Id" />
-                                <button name="btnOrderConfirm" type="submit">
-                                    Order Confirm
-                                </button>
-                            </form>
+                            <div class="modal fade" id="OrderConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="#OrderConfirm">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Do you want to Confirm this order ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <form action="@Url.Action("OrderConfirm","Member")" method="post">
+                                                <input type="hidden" name="Id" value="@item.Id" />
+                                                <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                                <button type="submit" class="btn btn-primary">Order Confirm</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <input type="hidden" name="ProductId" value="@item.ProductId" />
+                                <button name="btnOrderConfirm" type="button" class="btn btn-primary" data-toggle="modal" data-target="#OrderConfirm">
+                                    Order Confirm</button>
                         </td>
                     }
                     else if (item.OrderConfirm == 1)
@@ -58,7 +75,7 @@
                         <td>@item.price</td>
                         <td>
 
-                            <button name="btnOrderConfirm" type="submit">
+                            <button name="btnOrderConfirm" class="btn btn-success" type="submit">
                                 Already Confirm
                             </button>
                         </td>
@@ -66,16 +83,38 @@
                     else
                     {
                         <td>No Price</td>
-                        <td><button>Waiting</button></td>
+                        <td><button class="btn btn-secondary">Waiting</button></td>
                     }
                 }
-                <td>
-                    <form action="@Url.Action("OrderCancel", "Member")" method="post">
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="hidden" name="memberId" value="@item.MemberId" />
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
+            <td>
+                @item.CreatedDate
+            </td>
+            <td>
+                <div class="modal fade" id="CancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="#CancelModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Do you want to Cancel this order ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="@Url.Action("OrderCancel","Member")" method="post">
+                                    <input type="hidden" name="Id" value="@item.Id" />
+                                    <input type="hidden" name="memberId" value="@item.MemberId" />
+                                    <button type="submit" class="btn btn-primary">Cancel Confirm</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <button type="button" class="btn btn-danger"  data-toggle="modal" data-target="#CancelModal">Cancel Order</button>
+            </td>
             </tr>
         }
     </table>

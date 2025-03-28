@@ -17,40 +17,62 @@
             <td>Id</td>
             <td>Product Name</td>
             <td>Price</td>
-            <td>Order Confirm</td>
+            <td>Action</td>
+            <td>Cancel Order</td>
         </tr>
         @foreach (BaggageWeb.Models.ModelView.OrderView item in view)
         {
             <tr>
                 <td>@item.Id</td>
-                <td>@item.ProductId</td>
+                <td>@BaggageWeb.Models.Repositories.ProductRepository.Instance.findById(item.ProductId).Name</td>
                 @{
-                    if (item.price == 0)
+                    if (item.OrderConfirm == 0)
                     {
-                        <td>No Price</td>
+                        <td>@item.price</td>
                         <td>
-                            <form action="@Url.Action("AddPriceToOrder","Admin",new {orderId=item.Id})" method="post">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
-                                <button name="btnAddPrice" type="submit">
-                                    Add Price
+                            <div class="modal fade" id="PriceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="#PriceModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Do you want to Change this order Price ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <form action="@Url.Action("AddPriceToOrder","Admin",new {orderId=item.Id})" method="post">
+                                                <input type="hidden" name="Id" value="@item.Id" />
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <button type="submit" class="btn btn-primary">Confirm</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <button name="btnChangePrice" type="button" data-toggle="modal" data-target="#PriceModal">
+                                    Change Price
                                 </button>
-
-                            </form>
                         </td>
                     }
                     else
                     {
                         <td>@item.price</td>
-                        <td>
-                            <form action="@Url.Action("AddPriceToOrder","Admin",new {orderId=item.Id})" method="post">
-                                <input type="hidden" name="productId" value="@item.ProductId" />
-                                <button name="btnChangePrice" type="submit">
-                                    Change Price
-                                </button>
-                            </form>
-                        </td>
+                        <td><button>Already Confirm</button></td>
+
                     }
                 }
+                <td>
+                    <form action="@Url.Action("CancelOrder","Admin",new {orderId=item.Id})" method="post">
+                        <input type="hidden" name="ProductId" value="@item.ProductId" />
+                        <button name="btnChangePrice" type="submit">
+                            Change Price
+                        </button>
+                    </form>
+                </td>
 
             </tr>
         }

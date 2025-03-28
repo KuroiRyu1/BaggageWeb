@@ -132,7 +132,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,6 +184,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\Baggage-Claim.jpg" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -217,6 +217,7 @@
     <Content Include="Content\css\responsive.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\superslides.css" />
+    <Content Include="Content\images\baggage2.jpg" />
     <Content Include="Content\images\baggage_0.jpeg" />
     <Content Include="Content\js\baguetteBox.min.js" />
     <Content Include="Content\js\bootsnav.js" />
@@ -304,7 +305,6 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Shared\_LayoutClient.cshtml" />
-    <Content Include="Views\Products\Edit.cshtml" />
     <Content Include="Views\Member\OrderList.cshtml" />
     <Content Include="Views\Member\ProductList.cshtml" />
     <Content Include="Views\Member\NewOrder.cshtml" />
@@ -315,7 +315,11 @@
     <Content Include="Views\Admin\RequestOrder.cshtml" />
     <Content Include="Views\Admin\AddPriceToOrder.cshtml" />
     <Content Include="Views\Admin\ProductCreate.cshtml" />
-    <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Shared\ModalPartialView.cshtml" />
+    <Content Include="Views\Member\ProductDetail.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\Home\ProductList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

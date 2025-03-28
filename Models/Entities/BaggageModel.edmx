@@ -63,9 +63,7 @@
           <Property Name="pro_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="pro_name" Type="nvarchar" MaxLength="100" />
           <Property Name="pro_des" Type="nvarchar" MaxLength="255" />
-          <Property Name="pro_price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="pro_active" Type="int" />
-          <Property Name="pro_quantity" Type="int" />
           <Property Name="pro_image" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="fk_default_auth_id">
@@ -209,9 +207,7 @@
           <Property Name="pro_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="pro_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="pro_des" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="pro_price" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="pro_active" Type="Int32" />
-          <Property Name="pro_quantity" Type="Int32" />
           <NavigationProperty Name="tbl_orders" Relationship="Self.fk_default_pro_id" FromRole="tbl_products" ToRole="tbl_orders" />
           <Property Name="pro_image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -356,9 +352,7 @@
                 <ScalarProperty Name="pro_id" ColumnName="pro_id" />
                 <ScalarProperty Name="pro_name" ColumnName="pro_name" />
                 <ScalarProperty Name="pro_des" ColumnName="pro_des" />
-                <ScalarProperty Name="pro_price" ColumnName="pro_price" />
                 <ScalarProperty Name="pro_active" ColumnName="pro_active" />
-                <ScalarProperty Name="pro_quantity" ColumnName="pro_quantity" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

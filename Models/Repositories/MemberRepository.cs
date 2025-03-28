@@ -116,5 +116,19 @@ namespace BaggageWeb.Models.Repositories
         {
             throw new NotImplementedException();
         }
+        public void ChangeEmail(string email,int id)
+        {
+            try
+            {
+                DbEntities en = new DbEntities();
+                var item = en.tbl_member.Where(d=>d.C_id==id).FirstOrDefault();
+                item.C_email = email;
+                en.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
     }
 }

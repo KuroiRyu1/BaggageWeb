@@ -2,38 +2,38 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    BaggageWeb.Models.ModelView.ProductView product = new BaggageWeb.Models.ModelView.ProductView();
+    if (ViewBag.data != null)
+    {
+        product = (BaggageWeb.Models.ModelView.ProductView)ViewBag.data;
+    }
 }
 
 <h2>Edit</h2>
-<form action="@Url.Action("Create2","Products")" method="post" enctype="multipart/form-data">
+<form action="@Url.Action("Create2","Admin")" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-2">Name :</div>
         <div class="col-5">
-            <input type="text" value="" name="Name" id="Name" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-2">Price</div>
-        <div class="col-5">
-            <input type="text" name="Price" value="0" />
+            <input type="text" value="@product.Name" name="Name" id="Name" />
         </div>
     </div>
     <div class="row">
         <div class="col-2">Description</div>
         <div class="col-10">
-            <input type="text" name="Description" value="" id="Description" />
+            <input type="text" name="Description" value="@product.Description" id="Description" />
         </div>
     </div>
     <div class="row">
         <div class="col-2">Active</div>
         <div class="col-10">
-            <input type="checkbox" name="Active" id="Active" value="1" />
+            <input type="text" name="Active" id="Active" value="@product.Active" />
         </div>
     </div>
     <div class="row">
         <div class="col-2">Image</div>
         <div class="col-4">
-            <input type="file" value="" id="Img" name="Img" />
+            <img class="img-fluid h-100" src="~/Content/Products/images/@product.ImageName"/>
+            <input type="file" value="@product.ImageName" id="Img" name="Img" />
         </div>
     </div>
     <div class="row">
@@ -43,4 +43,5 @@
         </div>
     </div>
 </form>
+
 

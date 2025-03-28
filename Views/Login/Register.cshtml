@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
-    bool getNum = false;
 }
 
 <div class="container">
@@ -10,7 +9,7 @@
         <div class="screen__content">
             <form class="login" action="@Url.Action("RegisterConfirm", "Home") " method="post">
                 <div class="login__field">
-                    <i class="login__icon fas fa-user"></i> 
+                    <i class="login__icon fas fa-user"></i>
                     <input type="text" class="login__input" name="UserName" id="UserName" placeholder="User name">
                 </div>
                 <div class="login__field">
@@ -22,7 +21,7 @@
                     <i class="button__icon fas fa-chevron-right"></i>
                 </button>
                 <div class="sign_up">
-                    <a href="@Url.Action("index","Login")" class="text-decoration-none text-primary"><span>Already Have Account ? Sign in</span></a>
+                    <a href="@Url.Action("index","Login")" class="text-decoration-none text-primary"><span>Already Have Account ? Login</span></a>
                 </div>
             </form>
         </div>
@@ -34,3 +33,5 @@
         </div>
     </div>
 </div>
+
+

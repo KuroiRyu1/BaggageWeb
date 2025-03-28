@@ -2,20 +2,25 @@
 @{
     ViewBag.Title = "MemberInfo";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
-    HttpCookie cookie = Request.Cookies["User"];
+    BaggageWeb.Models.ModelView.MemberView member = (BaggageWeb.Models.ModelView.MemberView)Session["acc"];
 }
 
 
 <div class="container">
     <h2>MemberInfo</h2>
     <div class="col-3 mb-4">
-        <div class="card" style="width: 80rem; height:30rem;">
-            <img class="card-img-top" height="200" alt="1">
-            <div class="card-body">
-                <h5 class="card-title">@cookie["username"]</h5>
-                <a href="@Url.Action("LogOut", "Login")" class="btn btn-primary">Log Out</a>
-            </div>
+        <div>
+            <h4>Username :</h4>
+            <h5 class="card-title">@member.UserName</h5>
         </div>
+        <div>
+            <h4>Email :</h4>
+            <form action="@Url.Action("ChangeEmail","Member")" method="post">
+                <input type="email" name="Email" value="@member.Email" />
+                <button class="btn-success">ChangeEmail</button>
+            </form>
+        </div>
+        <a href="@Url.Action("LogOut", "Login")" class="btn btn-primary">Log Out</a>
     </div>
 </div>
 

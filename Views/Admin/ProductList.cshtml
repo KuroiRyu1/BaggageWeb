@@ -7,14 +7,14 @@
 
 <div class="container">
     <h2>ProductList</h2>
+    <a class="btn btn-success" href="@Url.Action("ProductCreate")">Add Product</a>
     <table class="table table-hover">
         <tr>
             <td>Id</td>
             <td>Name</td>
             <td>Description</td>
-            <td>Price</td>
-            <td>Quantity</td>
             <td>Status</td>
+            <td>Action</td>
         </tr>
         @foreach (BaggageWeb.Models.ModelView.ProductView item in view)
         {
@@ -22,9 +22,21 @@
                 <td>@item.Id</td>
                 <td>@item.Name</td>
                 <td>@item.Description</td>
-                <td>@item.Price</td>
-                <td>@item.Quantity</td>
-                <td>@item.Active</td>
+                @if (item.Active == 1)
+                {
+                    <td>Available</td>
+                }
+                else if (item.Active == 2)
+                {
+                    <td>Wait</td>
+                }
+                else
+                {
+                    <td>Abandoned</td>
+                }
+            <td>
+                    <a class="btn btn-warning" href="@Url.Action("Edit", new {id=item.Id})">Edit</a>
+            </td>
             </tr>
         }
     </table>

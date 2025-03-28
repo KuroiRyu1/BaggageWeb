@@ -31,9 +31,7 @@ namespace BaggageWeb.Models.Repositories
                     Name = d.pro_name,
                     Description = d.pro_des,
                     Active = (int)d.pro_active,
-                    Quantity = (int)d.pro_quantity,
                     ImageName = d.pro_image,
-                    Price = (int)d.pro_price,
                 }).ToHashSet();
                 return item;
             }
@@ -42,9 +40,22 @@ namespace BaggageWeb.Models.Repositories
             }
             return new HashSet<ProductView>();
         }
+        public bool CheckSameName(ProductView productView)
+        {
+            try
+            {
+                DbEntities en = new DbEntities();
+                var rs = en.tbl_products.Any(d=>d.pro_name==productView.Name);
+                return rs;
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex.Message);
+            }
+            return false;
+        }
      
 
-        public void create(ProductView entity)
+        public bool create(ProductView entity)
         {
             try
             {
@@ -54,18 +65,25 @@ namespace BaggageWeb.Models.Repositories
                     pro_name = entity.Name,
                     pro_des = entity.Description,
                     pro_active = entity.Active,
-                    pro_price = entity.Price,
-                    pro_quantity = entity.Quantity,
                     pro_image = entity.ImageName,
                 };
+                if (!CheckSameName(entity))
+                {
                     en.tbl_products.Add(view);
                     en.SaveChanges();
                     entity.Id = view.pro_id;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+            return false ;
         }
 
         public int delete(ProductView entity)
@@ -98,8 +116,6 @@ namespace BaggageWeb.Models.Repositories
                     Name = d.pro_name,
                     Description = d.pro_des,
                     Active = (int)d.pro_active,
-                    Quantity = (int)d.pro_quantity,
-                    Price = (int)d.pro_price,
                 }).FirstOrDefault();
                 return item;
             }
@@ -135,8 +151,6 @@ namespace BaggageWeb.Models.Repositories
                     Name = d.pro_name,
                     Description = d.pro_des,
                     Active = (int)d.pro_active,
-                    Quantity = (int)d.pro_quantity,
-                    Price = (int)d.pro_price,
                     ImageName = d.pro_image,
                 }).ToHashSet();
                 return item;
@@ -155,8 +169,6 @@ namespace BaggageWeb.Models.Repositories
                 DbEntities en = new DbEntities();
                 var item = en.tbl_products.Where(d=> d.pro_id == entity.Id).FirstOrDefault();
                 item.pro_name = entity.Name;
-                item.pro_price = entity.Price;
-                item.pro_quantity = entity.Quantity;
                 item.pro_active = entity.Active;
                 item.pro_des = entity.Description;
                 item.pro_image = entity.ImageName;
@@ -169,6 +181,11 @@ namespace BaggageWeb.Models.Repositories
                 
             }
             return 0;
+        }
+
+        void IRepository<ProductView>.create(ProductView entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

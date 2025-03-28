@@ -35,6 +35,7 @@ namespace BaggageWeb.Models.Daos
                         Password = d.C_acc_userpass,
                         Active = (int)d.C_active,
                         IdAuthentication = (int)d.C_id_auth,
+                        Email = d.C_email,
 
                     }).FirstOrDefault();
                 if (q != null)

@@ -7,9 +7,6 @@
     @Styles.Render("~/Content/Client/ClientStyle.css")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @{
-        BaggageWeb.Models.ModelView.MemberView item = (BaggageWeb.Models.ModelView.MemberView)Session["acc"];
-    }
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -48,14 +45,14 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item active"><a class="nav-link" href="@Url.Action("Index", "Member")">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ProductList", "Member")">Product </a></li>
+                        <li class="nav-item active"><a class="nav-link" href="@Url.Action("Index", "Home")">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="@Url.Action("ProductList", "Home")">Product </a></li>
                         <li class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
-                                <li><a href="@Url.Action("OrderList","Member")">Cart</a></li>
+                                <li><a href="@Url.Action("index","Login")">Cart</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="@Url.Action("MemberInfo", "Member")">My Account</a></li>
+                                <li><a href="@Url.Action("index", "Login")">My Account</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
@@ -79,20 +76,11 @@
 
             </div>
             <!-- End Side Menu -->
-            @if (item.Id != 0)
-            {
-                if (item.IdAuthentication == 1)
-                {
-                    <div class="mx-3">
-                        <a href="@Url.Action("index", "Admin")">back to Admin Page</a>
-                    </div>
-                }
-            }
             <div class="mx-3">
                 <a href="@Url.Action("index", "Login")" class="nav-item">Sign In</a>
             </div>
             <div>
-                <a href="@Url.Action("SignIn","Home")">Register</a>
+                <a href="@Url.Action("Register","Login")">Register</a>
             </div>
         </nav>
         <!-- End Navigation -->

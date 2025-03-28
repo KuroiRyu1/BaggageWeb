@@ -1,6 +1,7 @@
 ﻿using BaggageWeb.Models.Daos;
 using BaggageWeb.Models.ModelView;
 using BaggageWeb.Models.Repositories;
+using BaggageWeb.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace BaggageWeb.Controllers
                     switch (mv.IdAuthentication)
                     {
                         case 1: return RedirectToAction("index", "Admin");
-                        case 2: return RedirectToAction("index", "Member");
+                        case 2: return RedirectToAction("index", "Home");
                     }
                 }
             }
@@ -54,7 +55,7 @@ namespace BaggageWeb.Controllers
                 switch (mv.IdAuthentication)
                 {
                     case 1: return RedirectToAction("index", "Admin");
-                    case 2: return RedirectToAction("index", "Member");
+                    case 2: return RedirectToAction("index", "Home");
                 }
             }
             return RedirectToAction("Index", "Home", new { username, password });
@@ -77,25 +78,6 @@ namespace BaggageWeb.Controllers
 
             return value;
         }
-        public MemberView checkCookie()
-        {
-            MemberView account = null;
-            string username = string.Empty;
-            string password = string.Empty;
-            if (Response.Cookies["username"] != null)
-            {
-                username = Response.Cookies["username"].Value;
-            }
-            if (Response.Cookies["password"] != null)
-            {
-                username = Response.Cookies["password"].Value;
-            }
-            if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
-            {
-                account = new MemberView { UserName = username, Password = password };
-            }
-            return account;
-        }
         public ActionResult LogOut()
         {
             Session.Remove("acc");
@@ -103,6 +85,27 @@ namespace BaggageWeb.Controllers
             cookie.Expires = DateTime.Now.AddDays(-1);
             Response.Cookies.Add(cookie);
             return RedirectToAction("Index", "Login");
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+        public ActionResult RegisterConfirm(MemberView entity)
+        {
+            string a = "";
+            if (entity != null)
+            {
+                a = MemberRepository.Instance.SignUp(entity);
+                if (a.Equals(StringValue.Message_Create_Account_Failed))
+                {
+                    return RedirectToAction("Register", "Login", new { a });
+                }
+                else
+                {
+                    return RedirectToAction("index", "Login", new { a });
+                }
+            }
+            return RedirectToAction("Index", "Login", new { a });
         }
     }
 }

@@ -19,11 +19,13 @@ namespace BaggageWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-        protected void Application_BeginRequest(object sender, EventArgs e) { 
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
         }
         protected void Application_AcquireRequestState(object sender, EventArgs e)
         {
             var app = (HttpApplication)sender;
+
             var uriObj = app.Context.Request.Url.AbsolutePath;
             if (uriObj.ToLower().Contains("admin") == true || uriObj.ToLower().Contains("member") == true)
             {
@@ -31,13 +33,13 @@ namespace BaggageWeb
                 {
                     var usr = (MemberView)app.Context.Session["acc"];
                     var id_auth = usr.IdAuthentication;
-                    if (id_auth==1)
+                    if (id_auth == 1)
                     {
 
                     }
                     else if (LoginRepository.Instance.GetAuthorization(id_auth, uriObj) == false)
                     {
-                        app.Context.Response.RedirectToRoute(new { controller = "Member", action = "index" });
+                        app.Context.Response.RedirectToRoute(new { controller = "Login", action = "index" });
                     }
 
                 }
@@ -46,7 +48,7 @@ namespace BaggageWeb
                     app.Context.Response.RedirectToRoute(new { controller = "Login", Action = "index" });
                 }
             }
-
         }
+
     }
 }

@@ -23,9 +23,7 @@ namespace BaggageWeb.Models.Entities
         public int pro_id { get; set; }
         public string pro_name { get; set; }
         public string pro_des { get; set; }
-        public Nullable<decimal> pro_price { get; set; }
         public Nullable<int> pro_active { get; set; }
-        public Nullable<int> pro_quantity { get; set; }
         public string pro_image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
